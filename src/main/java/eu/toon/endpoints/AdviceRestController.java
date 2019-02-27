@@ -34,7 +34,7 @@ public class AdviceRestController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = TemperatureAdviceDetailsResponse.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "No weather clothing advice details found"),
-        }
+    }
     )
     public ResponseEntity getAllPairs() {
         List<TemperatureAdviceDetailsResponse> allPairs = adviceRestService.getAllPairs();
@@ -46,11 +46,25 @@ public class AdviceRestController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = TemperatureAdviceDetailsResponse.class),
             @ApiResponse(code = 404, message = "No weather clothing advice details found"),
-        }
+    }
     )
     public ResponseEntity getPairDetails(@Valid @PathVariable("id") int id) {
         TemperatureAdviceDetailsResponse pairDetails = adviceRestService.getPairDetails(id);
         return new ResponseEntity<TemperatureAdviceDetailsResponse>(pairDetails, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/advice", produces = "application/json")
+    @ApiOperation(value = "Returns clothing advice for given city", response = WeatherClothingAdviceResponse.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = WeatherClothingAdviceResponse.class),
+            @ApiResponse(code = 422, message = "Name of city must not be null or empty"),
+            @ApiResponse(code = 422, message = "No weather clothing advice details found for city"),
+            @ApiResponse(code = 422, message = "There is an issue processing your request.Please contact support"),
+    }
+    )
+    public ResponseEntity getWeatherAdvice(@RequestParam(required = true) String city) {
+        WeatherClothingAdviceResponse weatherAdvice = adviceRestService.getWeatherAdvice(city);
+        return new ResponseEntity<WeatherClothingAdviceResponse>(weatherAdvice, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -58,7 +72,7 @@ public class AdviceRestController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 404, message = "No pairs were found related to weather"),
-         }
+    }
     )
     public ResponseEntity deleteWeatherPair(@Valid @PathVariable("id") int id) {
         adviceRestService.deletePairDetails(id);
@@ -75,19 +89,6 @@ public class AdviceRestController {
     public ResponseEntity createWeatherClothingAdvicePair(@Valid @RequestBody WeatherClothingAdviceRequest weatherClothingAdviceRequest) {
         adviceRestService.createWeatherClothingAdvicePair(weatherClothingAdviceRequest);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
-    }
-
-    @GetMapping(value = "/advice", produces = "application/json")
-    @ApiOperation(value = "Returns clothing advice for given city", response = WeatherClothingAdviceResponse.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = WeatherClothingAdviceResponse.class),
-            @ApiResponse(code = 422, message = "Name of city must not be null or empty"),
-            @ApiResponse(code = 422, message = "No weather clothing advice details found for city"),
-    }
-    )
-    public ResponseEntity getWeatherAdvice(@RequestParam(required = true) String city) {
-        WeatherClothingAdviceResponse weatherAdvice = adviceRestService.getWeatherAdvice(city);
-        return new ResponseEntity<WeatherClothingAdviceResponse>(weatherAdvice, HttpStatus.OK);
     }
 
     @PutMapping(consumes = "application/json")

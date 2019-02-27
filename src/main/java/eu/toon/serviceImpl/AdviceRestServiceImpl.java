@@ -76,6 +76,10 @@ public class AdviceRestServiceImpl implements AdviceRestService {
     private String invalidWeatherPair;
 
 
+    /**
+     * Return all the temperate advice clothing pairs
+     * @return {@link List<TemperatureAdviceDetailsResponse>}
+     */
     @Override
     public List<TemperatureAdviceDetailsResponse> getAllPairs() {
         List<TemperatureAdviceDetails> temperatureAdviceDetails = temperatureAdviceDetailsDAO.findAll();
@@ -92,6 +96,11 @@ public class AdviceRestServiceImpl implements AdviceRestService {
         return adviceDetailsResponses;
     }
 
+    /**
+     * Returns temperature advice clothing details as per given id
+     * @param id
+     * @return @{@link TemperatureAdviceDetailsResponse}
+     */
     @Override
     public TemperatureAdviceDetailsResponse getPairDetails(int id) {
         Optional<TemperatureAdviceDetails> pairDetails = temperatureAdviceDetailsDAO.findById(id);
@@ -103,6 +112,10 @@ public class AdviceRestServiceImpl implements AdviceRestService {
         return temperatureAdviceDetailsResponse;
     }
 
+    /**
+     * Removes temperature advice clothing pair for given id
+     * @param id
+     */
     @Override
     public void deletePairDetails(int id) {
         Optional<TemperatureAdviceDetails> pairDetails = temperatureAdviceDetailsDAO.findById(id);
@@ -112,6 +125,10 @@ public class AdviceRestServiceImpl implements AdviceRestService {
         temperatureAdviceDetailsDAO.deleteById(id);
     }
 
+    /**
+     * Created temperature advice clothing pair. Dont pass id in request payload
+     * @param @{@link WeatherClothingAdviceRequest}
+     */
     @Override
     @Transactional
     public void createWeatherClothingAdvicePair(WeatherClothingAdviceRequest weatherDetailRequest) {
@@ -126,6 +143,10 @@ public class AdviceRestServiceImpl implements AdviceRestService {
         temperatureAdviceDetailsDAO.save(temperatureAdviceDetails);
     }
 
+    /**
+     * Updates temperature advice clothing pair. Pass complete request body
+     * @param @{@link WeatherClothingAdviceRequest}
+     */
     @Override
     @Transactional
     public void updateWeatherAdvicePair(WeatherClothingAdviceRequest weatherDetailRequest) {
@@ -140,6 +161,11 @@ public class AdviceRestServiceImpl implements AdviceRestService {
         temperatureAdviceDetailsDAO.save(temperatureAdviceDetails);
     }
 
+    /**
+     * Returns temperature advice clothing details based on city name.
+     * @param city
+     * @return {@link WeatherClothingAdviceResponse}
+     */
     @Override
     public WeatherClothingAdviceResponse getWeatherAdvice(String city) {
         if (StringUtils.isEmpty(city.trim())) {
@@ -159,7 +185,12 @@ public class AdviceRestServiceImpl implements AdviceRestService {
         return weatherAdviceResponse;
     }
 
-    public Double getCurrentTemp(String city) {
+    /**
+     * Returns current temperature by calling third party service.
+     * @param city
+     * @return temperature
+     */
+    private Double getCurrentTemp(String city) {
         WeatherResponse weatherResponse = null;
 
         try {
@@ -177,6 +208,7 @@ public class AdviceRestServiceImpl implements AdviceRestService {
                 logger.info("HTTP status code doesn't match with 200");
                 throw new BusinessValidationException(genericErrorMessage);
             }
+
             // convert response to POJO using GSON
             Gson gson = new Gson();
             weatherResponse = gson.fromJson(response.readEntity(String.class).toString(), new TypeToken<WeatherResponse>() {

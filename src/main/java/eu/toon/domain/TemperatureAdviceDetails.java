@@ -32,16 +32,27 @@ public class TemperatureAdviceDetails implements Serializable {
     @Column(name = "advice")
     private String advice;
 
+    /**
+     * Default constructor
+     */
     public TemperatureAdviceDetails() {
     }
 
-
+    /**
+     * Maps wrapper class to entity object
+     * @param weatherDetailRequest
+     */
     public TemperatureAdviceDetails(WeatherClothingAdviceRequest weatherDetailRequest) {
         this.minTemperature = weatherDetailRequest.getMinTemperatureRange();
         this.maxTemperature = weatherDetailRequest.getMaxTemperatureRange();
         this.advice = weatherDetailRequest.getAdvice();
     }
 
+    /**
+     * Updates entity object from incoming request data
+     * @param temperatureAdviceDetails
+     * @param weatherDetailRequest
+     */
     public void getUpdatedAdviceTemperatureDetails(TemperatureAdviceDetails temperatureAdviceDetails,WeatherClothingAdviceRequest weatherDetailRequest) {
         temperatureAdviceDetails.setMinTemperature(weatherDetailRequest.getMinTemperatureRange());
         temperatureAdviceDetails.setMaxTemperature(weatherDetailRequest.getMaxTemperatureRange());
