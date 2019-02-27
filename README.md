@@ -99,6 +99,6 @@ Btw, you are free to modify any resource in this assignment the way you like.
    - Remove commneted out part from pom.xml which is resposible for execution of test cases
    - Remove service path /weather from AdviceRestController.java
    - Need to change datatype of WeatherClothingAdviceResponse.currentTemperature to int from double
-   - Change currentTemperature to currentTemperature.intValue() on line number 157 of AdviceRestServiceImpl.java
+   - Change currentTemperature to currentTemperature.intValue() on line number 183 of AdviceRestServiceImpl.java
    
 
