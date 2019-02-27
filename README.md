@@ -56,3 +56,49 @@ I'm a really strict PO so I would not consider this story ok unless it meets the
 You see? I'm not asking that much ;)
 
 Btw, you are free to modify any resource in this assignment the way you like.
+
+## Swagger & POSTMAN Collection
+
+* Weather Cloth Advisor Report.postman_collection.json (attached) 
+* http://localhost:9090/service/swagger-ui.html#/
+
+## API Security
+
+* API's are secured. Use **user** as username and password with role **USER**
+
+## Technology Stack
+
+  - Java 1.7/8
+  - Maven
+  - Spring Boot
+  - Spring JPA
+  - REST
+  - GIT
+  - h2 (in memory database)
+
+## Pre-requisites to run application
+
+   - Java 
+   - Maven 
+   - GIT
+   - h2
+   
+## NOTES
+
+   - **data.sql** file contains insert scripts which is currently being used to setup data which is given in requirement.
+   - h2 database dosen't have floatas datatype. It has double and real hence to make it simple kept double as a datatype for temperature. 
+   - Context path is set as /service.
+   - Service path is set as /weather.
+   - Server port address is 9090.
+   - Test case plugin is commented out as I made some changes which will not allow VerifyContract.java to run and hence below are the changes needed (refer **Test case execution** section below)
+   - In case of any issues in running test cases, please use POSTMAN or Swagger collection to test all the api's.
+   - In case there is issue from third party API for getting temperature then API will throw an error message as *There is an issue processing your request.Please contact support*
+   
+## Changes required for Test case execution
+
+   - Remove commneted out part from pom.xml which is resposible for execution of test cases
+   - Remove service path /weather from AdviceRestController.java
+   - Need to change datatype of WeatherClothingAdviceResponse.currentTemperature to int from double
+   - Change currentTemperature to currentTemperature.intValue() on line number 157 of AdviceRestServiceImpl.java
+   
+
