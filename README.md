@@ -81,7 +81,7 @@ Btw, you are free to modify any resource in this assignment the way you like.
    - Java 
    - Maven 
    - GIT
-   - MySQL
+   - h2
    
 ## NOTES
 
